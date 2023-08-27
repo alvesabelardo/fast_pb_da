@@ -1,6 +1,6 @@
 # Git e Github
 
-### Comandos essenciais
+## Comandos essenciais
 
 -> Git init "File name"     (Criar rep.)
 
