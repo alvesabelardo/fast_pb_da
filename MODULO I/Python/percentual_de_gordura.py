@@ -12,7 +12,7 @@ else:
 
 #Calcular percentual 
 idade = float(input("Digite sua idade: "))
-sexo_quest = input("Qual o seu sexo? (M ou F): ")
+sexo_quest = input("Qual o seu sexo? [M] ou [F]: ")
 
 if sexo_quest == "M" or sexo_quest == "m":
     sexo = 1

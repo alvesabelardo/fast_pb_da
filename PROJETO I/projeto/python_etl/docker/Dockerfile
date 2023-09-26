@@ -6,6 +6,6 @@ COPY . .
 
 RUN pip3 install pandas
 RUN pip3 install psycopg2
-RUN pip3 install pymongo
+RUN pip3 install sqlalchemy
 
 CMD [ "python", "./etl.py" ]

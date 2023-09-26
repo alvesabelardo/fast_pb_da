@@ -1,38 +1,30 @@
 import pandas as pd
-# import os
-import psycopg2
-from psycopg2 import extensions
-# from pymongo import MongoClient
-# connection_string = "mongodb://mongoadmin:estagiocompass@localhost:27017/?authSource=admin"
-# client = MongoClient(connection_string)
-# db_connection = client["ecommerce"]
-# print(db_connection)
+from sqlalchemy import create_engine
 
-# commit = extensions.ISOLATION_LEVEL_AUTOCOMMIT
-# conn = psycopg2.connect(
-#     host="localhost",
-#     database="input",
-#     user="admin",
-#     password="estagiocompass"
-# )
-# conn.set_isolation_level(commit)
-# cursor = conn.cursor()
-# cursor.execute("SELECT * from produtos")
+#Conexão
+conn = create_engine('postgresql://postgres:estagiocompass@projeto-postgres-1/postgres').connect()
 
-# result = cursor.fetchall()
-# print()
+#Importando CSV's
+olist_produtos = pd.read_csv('/docker-entrypoint-initdb.d/olist_products_dataset.csv')
+olist_ordem_items = pd.read_csv('/docker-entrypoint-initdb.d/olist_order_items_dataset.csv')
+olist_pagamentos = pd.read_csv('/docker-entrypoint-initdb.d/olist_order_payments_dataset.csv')
+olist_ordem_vendas = pd.read_csv('/docker-entrypoint-initdb.d/olist_orders_dataset.csv')
+olist_cep = pd.read_csv('/docker-entrypoint-initdb.d/olist_customers_dataset.csv')
 
-produtos = pd.read_csv('./input/olist_products_dataset.csv')
-ordem_items = pd.read_csv('./input/olist_order_items_dataset.csv')
-pagamentos = pd.read_csv('./input/olist_order_payments_dataset.csv')
-ordem_vendas = pd.read_csv('./input/olist_orders_dataset.csv')
-cep = pd.read_csv('./input/olist_customers_dataset.csv')
+## order_reviews = pd.DataFrame('./mongodb-init/init.js')
 
-venda_info = ordem_vendas.merge(cep,
+tabela_produtos = olist_ordem_vendas.merge(olist_cep,
                             left_on='customer_id',
                             right_on='customer_id',
                             how='left')
 
-venda_info = venda_info[['order_status','order_estimated_delivery_date','customer_city', 'customer_state']]
+tabela_produtos.rename(columns={'order_id': 'id', 'order_approved_at': 'data_aprovacao', 'order_estimated_delivery_date': 'estimativa_entrega',  'customer_id': 'fk_olist_cep', 'order_status': 'status_venda', 'customer_zip_code_prefix': 'cep', 'customer_city': 'cidade', 'customer_state': 'estado'}, inplace=True)
+tabela_produtos = tabela_produtos[['id', 'data_aprovacao','estimativa_entrega','fk_olist_cep', 'status_venda', 'cep', 'cidade', 'estado' ]]
+tabela_produtos.data_aprovacao = pd.to_datetime(tabela_produtos.data_aprovacao)
+tabela_produtos.estimativa_entrega = pd.to_datetime(tabela_produtos.estimativa_entrega)
+# print(tabela_produtos.dtypes)
 
-print(venda_info) 
+#Inserindo tabela produtos 
+tabela_produtos.to_sql(name='tabela_produtos', con=conn, if_exists='append', index=False, schema='ecommerce')
+
+conn.commit()
