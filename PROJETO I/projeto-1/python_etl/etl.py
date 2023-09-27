@@ -10,7 +10,7 @@ client = MongoClient('mongodb://mongoadmin:estagiocompass@projeto-1-mongo-1:2701
 
 #Importando e alterando dados Mongo
 db = client.ecommerce.order_reviews
-_ = db.find()
+_ = db.find({}, {'_id':0})
 order_reviews = pd.DataFrame(_)
 #Importando CSV's
 olist_produtos = pd.read_csv('/docker-entrypoint-initdb.d/olist_products_dataset.csv')
@@ -84,13 +84,7 @@ dim_produto.rename(columns={'product_category_name':'categoria',
                             'product_weight_g':'peso_produto'}, inplace=True)
 # print(dim_produto.dtypes)
 
-#Inserindo dados no Postgres
-    # order_reviews.to_sql(name='dim_produto_review', con=conn, if_exists='append', index=False, schema='ecommerce')
-    # fato_vendas.to_sql(name='fato_vendas', con=conn, if_exists='append', index=False, schema='ecommerce')
-    # dim_clientes.to_sql(name='dim_cliente', con=conn, if_exists='append', index=False, schema='ecommerce')
-    # dim_item.to_sql(name='dim_item', con=conn, if_exists='append', index=False, schema='ecommerce')
-    # dim_produto.to_sql(name='dim_produto', con=conn, if_exists='append', index=False, schema='ecommerce')
-    # conn.commit()
+# Verificando se os dados foram inseridos corretamente
 
 def insert_data(data_frame, table_name, schema_name):
     try:
@@ -100,6 +94,8 @@ def insert_data(data_frame, table_name, schema_name):
     except Exception as e:
         conn.rollback()
         return print(f'Erro ao inserir dados na tabela {schema_name}.{table_name}: {str(e)}')
+
+#Inserindo dados na tabela
 
 insert_data(order_reviews, 'dim_produto_review', 'ecommerce')
 insert_data(fato_vendas, 'fato_vendas', 'ecommerce')
