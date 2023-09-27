@@ -1,0 +1,59 @@
+version: lastet
+
+services:
+  
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: estagiocompass
+    volumes:
+      - volume:/data/db
+      - ./mongodb-init/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    networks:
+      - projeto
+
+  postgres:
+
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: pb_wd
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: estagiocompass
+    volumes:
+      - volume:/var/lib/postgresql/data
+    networks:
+      - projeto
+      
+  python:
+
+    build:
+      dockerfile: /docker/Dockerfile
+      context: ./python_etl
+    depends_on:
+      - postgres
+      - mongo
+    ports:
+      - 3000:3000
+    volumes:
+      - volume:/var/lib/postgresql/data
+      - ./input/olist_customers_dataset.csv:/docker-entrypoint-initdb.d/olist_customers_dataset.csv:ro
+      - ./input/olist_order_items_dataset.csv:/docker-entrypoint-initdb.d/olist_order_items_dataset.csv:ro
+      - ./input/olist_order_payments_dataset.csv:/docker-entrypoint-initdb.d/olist_order_payments_dataset.csv:ro
+      - ./input/olist_orders_dataset.csv:/docker-entrypoint-initdb.d/olist_orders_dataset.csv:ro
+      - ./input/olist_products_dataset.csv:/docker-entrypoint-initdb.d/olist_products_dataset.csv:ro
+      - ./mongodb-init/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    networks:
+      - projeto
+networks:
+  projeto:
+    driver: bridge
+volumes:
+  volume:
