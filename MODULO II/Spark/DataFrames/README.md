@@ -10,9 +10,11 @@
 
 ## Execuções Console
 
->>> from pyspark.sql import SparkSession
->>> df1 = spark.createDataFrame([('Pedro', 10), ('Maria', 20), ('José',40)])
->>> df1.show()
+from pyspark.sql import SparkSession
+
+df1 = spark.createDataFrame([('Pedro', 10), ('Maria', 20), ('José',40)])
+
+df1.show()
 +-----+---+                                                                     
 |   _1| _2|
 +-----+---+
@@ -21,10 +23,14 @@
 | José| 40|
 +-----+---+
 
->>> schema = 'Id INT, Nome STRING'      (Definindo o schema)
->>> dados = [[1,"Pedro"], [2,"Maria"]]
->>> df2 = spark.createDataFrame(dados, schema)
->>> df2.show()
+schema = 'Id INT, Nome STRING'      (Definindo o schema)
+
+dados = [[1,"Pedro"], [2,"Maria"]]
+
+df2 = spark.createDataFrame(dados, schema)
+
+df2.show()
+
 +---+-----+
 | Id| Nome|
 +---+-----+
@@ -32,11 +38,16 @@
 |  2|Maria|
 +---+-----+
 
->>> from pyspark.sql.functions import sum 
->>> schema2 = 'Produtos STRING, Vendas INT'
->>> vendas = [['Caneta', 10], ['Lápis', 20], ['Caneta', 40]]
->>> df3 = spark.createDataFrame(vendas,schema2)
->>> df3.show()
+from pyspark.sql.functions import sum 
+
+schema2 = 'Produtos STRING, Vendas INT'
+
+vendas = [['Caneta', 10], ['Lápis', 20], ['Caneta', 40]]
+
+df3 = spark.createDataFrame(vendas,schema2)
+
+df3.show()
+
 +--------+------+
 |Produtos|Vendas|
 +--------+------+
@@ -45,16 +56,20 @@
 |  Caneta|    40|
 +--------+------+
 
->>> df3.show(1)
+df3.show(1)
+
 +--------+------+
 |Produtos|Vendas|
 +--------+------+
 |  Caneta|    10|
 +--------+------+
+
 only showing top 1 row
 
->>> agrupado = df3.groupBy('Produtos').agg(sum("Vendas"))
->>> agrupado.show()
+agrupado = df3.groupBy('Produtos').agg(sum("Vendas"))
+
+agrupado.show()
+
 +--------+-----------+
 |Produtos|sum(Vendas)|
 +--------+-----------+
@@ -62,8 +77,10 @@ only showing top 1 row
 |   Lápis|         20|
 +--------+-----------+
 
->>> from pyspark.sql.functions import expr
->>> df3.select("Produtos","Vendas", expr("Vendas * 0.2")).show()        (cria uma coluna com as funções do 'expr')
+from pyspark.sql.functions import expr
+
+df3.select("Produtos","Vendas", expr("Vendas * 0.2")).show()        (cria uma coluna com as funções do 'expr')
+
 +--------+------+--------------+
 |Produtos|Vendas|(Vendas * 0.2)|
 +--------+------+--------------+
@@ -73,10 +90,14 @@ only showing top 1 row
 +--------+------+--------------+
 
 
->>> from pyspark.sql.types import *
->>> arqschema = 'id INT, nome STRING, status STRING, cidade STRING, vendas INT, data STRING'
->>> despachantes = spark.read.csv("/home/abel/download/despachantes.csv", header=False, schema=arqschema)
->>> despachantes.show()
+from pyspark.sql.types import *
+
+arqschema = 'id INT, nome STRING, status STRING, cidade STRING, vendas INT, data STRING'
+
+despachantes = spark.read.csv("/home/abel/download/despachantes.csv", header=False, schema=arqschema)
+
+despachantes.show()
+
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -92,14 +113,22 @@ only showing top 1 row
 | 10|   Viviana Sequeira| Ativo| Porto Alegre|     0|2020-09-05|
 +---+-------------------+------+-------------+------+----------+
 
->>> from pyspark.sql import SparkSession
->>> from pyspark.sql.functions import sum
->>> from pyspark.sql.functions import expr
->>> from pyspark.sql.types import *
->>> from pyspark.sql import functions as Func
->>> arqschema = 'id INT, nome STRING, status STRING, cidade STRING, vendas INT, data STRING'
->>> despachantes = spark.read.csv("/home/abel/download/despachantes.csv", header=False, schema=arqschema)
->>> despachantes.select("id","nome","vendas").where(Func.col("vendas") > 20).show()
+from pyspark.sql import SparkSession
+
+from pyspark.sql.functions import sum
+
+from pyspark.sql.functions import expr
+
+from pyspark.sql.types import *
+
+from pyspark.sql import functions as Func
+
+arqschema = 'id INT, nome STRING, status STRING, cidade STRING, vendas INT, data STRING'
+
+despachantes = spark.read.csv("/home/abel/download/despachantes.csv", header=False, schema=arqschema)
+
+despachantes.select("id","nome","vendas").where(Func.col("vendas") > 20).show()
+
 +---+-------------------+------+
 | id|               nome|vendas|
 +---+-------------------+------+
@@ -113,7 +142,8 @@ only showing top 1 row
 |  9|      Uriel Queiroz|    54|
 +---+-------------------+------+
 
->>> despachantes.select("id","nome","vendas").where((Func.col("vendas") > 20) & (Func.col("vendas") < 40)).show()
+despachantes.select("id","nome","vendas").where((Func.col("vendas") > 20) & (Func.col("vendas") < 40)).show()
+
 +---+-------------------+------+
 | id|               nome|vendas|
 +---+-------------------+------+
@@ -124,13 +154,19 @@ only showing top 1 row
 |  6|   Matilde Rebouças|    22|
 +---+-------------------+------+
 
->>> novodf = despachantes.withColumnRenamed("nome","nomes")         (trocando o "nome" da tabela por "nomes")
->>> novodf.columns
-['id', 'nomes', 'status', 'cidade', 'vendas', 'data']
->>> despachantes2 = despachantes.withColumn("data2", to_timestamp(Func.col("data"), "yyyy-MM-dd"))          (adicionando uma coluna data2 como data)
->>> despachantes2.schema
-StructType([StructField('id', IntegerType(), True), StructField('nome', StringType(), True), StructField('status', StringType(), True), StructField('cidade', StringType(), True), StructField('vendas', IntegerType(), True), StructField('data', StringType(), True), StructField('data2', TimestampType(), True)])
->>> despachantes2.select(year("data")).show()       (selecionando anos, por data)
+novodf = despachantes.withColumnRenamed("nome","nomes")         (trocando o "nome" da tabela por "nomes")
+
+novodf.columns
+
+>>>['id', 'nomes', 'status', 'cidade', 'vendas', 'data']
+
+despachantes2 = despachantes.withColumn("data2", to_timestamp(Func.col("data"), "yyyy-MM-dd"))          (adicionando uma coluna data2 como data)
+
+despachantes2.schema
+
+>>>StructType([StructField('id', IntegerType(), True), StructField('nome', StringType(), True), StructField('status', StringType(), True), StructField('cidade', StringType(), True), StructField('vendas', IntegerType(), True), StructField('data', StringType(), True), StructField('data2', TimestampType(), True)])
+
+despachantes2.select(year("data")).show()       (selecionando anos, por data)
 +----------+
 |year(data)|
 +----------+
@@ -146,7 +182,9 @@ StructType([StructField('id', IntegerType(), True), StructField('nome', StringTy
 |      2020|
 +----------+
 
->>> despachantes2.select(year("data")).distinct().show()        (distinct exibe os anos apenas uma vez)
+
+despachantes2.select(year("data")).distinct().show()        (distinct exibe os anos apenas uma vez)
+
 +----------+
 |year(data)|
 +----------+
@@ -155,7 +193,8 @@ StructType([StructField('id', IntegerType(), True), StructField('nome', StringTy
 |      2020|
 +----------+
 
->>> despachantes2.select("nome", year("data")).orderBy("nome").show()       (buscando nome, apenas o ano na data e ordenando por nome)
+despachantes2.select("nome", year("data")).orderBy("nome").show()       (buscando nome, apenas o ano na data e ordenando por nome)
+
 +-------------------+----------+
 |               nome|year(data)|
 +-------------------+----------+
@@ -171,7 +210,8 @@ StructType([StructField('id', IntegerType(), True), StructField('nome', StringTy
 |   Viviana Sequeira|      2020|
 +-------------------+----------+
 
->>> despachantes2.select("data").groupBy(year("data")).count().show()       (buscando a data, ordenando por ano e contando qtds vezes o ano aparece)
+despachantes2.select("data").groupBy(year("data")).count().show()       (buscando a data, ordenando por ano e contando qtds vezes o ano aparece)
+
 +----------+-----+
 |year(data)|count|
 +----------+-----+
@@ -180,14 +220,16 @@ StructType([StructField('id', IntegerType(), True), StructField('nome', StringTy
 |      2020|    7|
 +----------+-----+
 
->>> despachantes2.select(Func.sum("vendas")).show()         (somando as vendas)
+despachantes2.select(Func.sum("vendas")).show()         (somando as vendas)
+
 +-----------+
 |sum(vendas)|
 +-----------+
 |        325|
 +-----------+
 
->>> despachantes.groupBy("cidade").agg(sum("vendas")).orderBy(Func.col("sum(vendas)").desc()).show()    (agrupando por cidade, agredando e somando vendas e ordedando pela coluna sum(vendas))
+despachantes.groupBy("cidade").agg(sum("vendas")).orderBy(Func.col("sum(vendas)").desc()).show()    (agrupando por cidade, agredando e somando vendas e ordedando pela coluna sum(vendas))
+
 +-------------+-----------+
 |       cidade|sum(vendas)|
 +-------------+-----------+
@@ -196,14 +238,16 @@ StructType([StructField('id', IntegerType(), True), StructField('nome', StringTy
 |Novo Hamburgo|         34|
 +-------------+-----------+
 
->>> despachantes.filter(Func.col("nome") == "Deolinda Vilela").show()       (filtrando nome)
+despachantes.filter(Func.col("nome") == "Deolinda Vilela").show()       (filtrando nome)
+
 +---+---------------+------+-------------+------+----------+
 | id|           nome|status|       cidade|vendas|      data|
 +---+---------------+------+-------------+------+----------+
 |  2|Deolinda Vilela| Ativo|Novo Hamburgo|    34|2020-03-05|
 +---+---------------+------+-------------+------+----------+
 
->>> despachantes.orderBy(Func.col("vendas").desc()).show()      (ordenando por vendas)
+despachantes.orderBy(Func.col("vendas").desc()).show()      (ordenando por vendas)
+
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -219,21 +263,24 @@ StructType([StructField('id', IntegerType(), True), StructField('nome', StringTy
 | 10|   Viviana Sequeira| Ativo| Porto Alegre|     0|2020-09-05|
 +---+-------------------+------+-------------+------+----------+
 
-ARMAZENAR DADOS 
+#### ARMAZENAR DADOS 
 
->>> despachantes.write.format("parquet").save("/home/abel/dfimportparquet")
->>> despachantes.write.format("csv").save("/home/abel/dfimportcsv")
->>> despachantes.write.format("json").save("/home/abel/dfimportjson")
+despachantes.write.format("parquet").save("/home/abel/dfimportparquet")
 
-IMPORTAR DADOS
+despachantes.write.format("csv").save("/home/abel/dfimportcsv")
 
->>> par = spark.read.format("parquet").load("/home/abel/dfimportparquet/despachantes.parquet")
+despachantes.write.format("json").save("/home/abel/dfimportjson")
+
+#### IMPORTAR DADOS
+
+par = spark.read.format("parquet").load("/home/abel/dfimportparquet/despachantes.parquet")
 
 ## Atividades
 
-1- Crie uma consulta que mostre Nome, Estado e Status nessa ordem
+### 1- Crie uma consulta que mostre Nome, Estado e Status nessa ordem
 
->>> clientes.select("Cliente","Estado","Status").show(10)
+clientes.select("Cliente","Estado","Status").show(10)
+
 +--------------------+------+--------+
 |             Cliente|Estado|  Status|
 +--------------------+------+--------+
@@ -250,9 +297,10 @@ IMPORTAR DADOS
 +--------------------+------+--------+
 only showing top 10 rows
 
-2- Crie uma consulta que mostre apenas os clientes "Platinum" e "Gold"
+### 2- Crie uma consulta que mostre apenas os clientes "Platinum" e "Gold"
 
->>> clientes.filter((Func.col("Status") == "Gold") | (Func.col("Status") == "Platinum")).show()
+clientes.filter((Func.col("Status") == "Gold") | (Func.col("Status") == "Platinum")).show()
+
 +---------+-------------------+------+------+--------+
 |ClienteID|            Cliente|Estado|Genero|  Status|
 +---------+-------------------+------+------+--------+
@@ -271,9 +319,9 @@ only showing top 10 rows
 |      247|         Joana Ataí|    GO|     F|Platinum|
 +---------+-------------------+------+------+--------+
 
-3- Demonstre cada Status de Cliente representa de vendas:
+### 3- Demonstre cada Status de Cliente representa de vendas:
 
->>> vendas.join(clientes, vendas.ClienteID == clientes.ClienteID).groupBy(clientes.Status).agg(sum("Total")).orderBy(Func.col("sum(Total)").desc()).show()
+vendas.join(clientes, vendas.ClienteID == clientes.ClienteID).groupBy(clientes.Status).agg(sum("Total")).orderBy(Func.col("sum(Total)").desc()).show()
 
 (Faz um join do ID do Cliente que é FK na tabela vendas, agroupa pelo Status da tabela cliente e agrega a soma do total, depois ordena em ordem decrescente a coluna "Total")
 
