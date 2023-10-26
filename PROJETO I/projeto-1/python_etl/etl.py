@@ -19,7 +19,6 @@ olist_pagamentos = pd.read_csv('/docker-entrypoint-initdb.d/olist_order_payments
 olist_ordem_vendas = pd.read_csv('/docker-entrypoint-initdb.d/olist_orders_dataset.csv')
 olist_clientes = pd.read_csv('/docker-entrypoint-initdb.d/olist_customers_dataset.csv')
 
-
 #Alterações tabela dim_produto_review
 order_reviews.review_creation_date = pd.to_datetime(order_reviews.review_creation_date)
 order_reviews.review_answer_timestamp = pd.to_datetime(order_reviews.review_answer_timestamp)
