@@ -15,12 +15,19 @@ from pyspark.sql import SparkSession
 df1 = spark.createDataFrame([('Pedro', 10), ('Maria', 20), ('José',40)])
 
 df1.show()
-+-----+---+                                                                     
-|   _1| _2|
+
 +-----+---+
+
+|   _1| _2|
+
++-----+---+
+
 |Pedro| 10|
+
 |Maria| 20|
+
 | José| 40|
+
 +-----+---+
 
 schema = 'Id INT, Nome STRING'      (Definindo o schema)
@@ -167,20 +174,20 @@ despachantes2.schema
 >StructType([StructField('id', IntegerType(), True), StructField('nome', StringType(), True), StructField('status', StringType(), True), StructField('cidade', StringType(), True), StructField('vendas', IntegerType(), True), StructField('data', StringType(), True), StructField('data2', TimestampType(), True)])
 
 despachantes2.select(year("data")).show()       (selecionando anos, por data)
->+----------+
->|year(data)|
->+----------+
->|      2020|
->|      2020|
->|      2020|
->|      2020|
->|      2020|
->|      2019|
->|      2019|
->|      2020|
->|      2018|
->|      2020|
->+----------+
++----------+
+|year(data)|
++----------+
+|      2020|
+|      2020|
+|      2020|
+|      2020|
+|      2020|
+|      2019|
+|      2019|
+|      2020|
+|      2018|
+|      2020|
++----------+
 
 
 despachantes2.select(year("data")).distinct().show()        (distinct exibe os anos apenas uma vez)
