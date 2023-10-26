@@ -158,29 +158,29 @@ novodf = despachantes.withColumnRenamed("nome","nomes")         (trocando o "nom
 
 novodf.columns
 
->>>['id', 'nomes', 'status', 'cidade', 'vendas', 'data']
+>['id', 'nomes', 'status', 'cidade', 'vendas', 'data']
 
 despachantes2 = despachantes.withColumn("data2", to_timestamp(Func.col("data"), "yyyy-MM-dd"))          (adicionando uma coluna data2 como data)
 
 despachantes2.schema
 
->>>StructType([StructField('id', IntegerType(), True), StructField('nome', StringType(), True), StructField('status', StringType(), True), StructField('cidade', StringType(), True), StructField('vendas', IntegerType(), True), StructField('data', StringType(), True), StructField('data2', TimestampType(), True)])
+>StructType([StructField('id', IntegerType(), True), StructField('nome', StringType(), True), StructField('status', StringType(), True), StructField('cidade', StringType(), True), StructField('vendas', IntegerType(), True), StructField('data', StringType(), True), StructField('data2', TimestampType(), True)])
 
 despachantes2.select(year("data")).show()       (selecionando anos, por data)
-+----------+
-|year(data)|
-+----------+
-|      2020|
-|      2020|
-|      2020|
-|      2020|
-|      2020|
-|      2019|
-|      2019|
-|      2020|
-|      2018|
-|      2020|
-+----------+
+>+----------+
+>|year(data)|
+>+----------+
+>|      2020|
+>|      2020|
+>|      2020|
+>|      2020|
+>|      2020|
+>|      2019|
+>|      2019|
+>|      2020|
+>|      2018|
+>|      2020|
+>+----------+
 
 
 despachantes2.select(year("data")).distinct().show()        (distinct exibe os anos apenas uma vez)
