@@ -16,19 +16,12 @@ df1 = spark.createDataFrame([('Pedro', 10), ('Maria', 20), ('José',40)])
 
 df1.show()
 
-+-----+---+
-
+                                                                   
 |   _1| _2|
-
-+-----+---+
-
+|---------|
 |Pedro| 10|
-
 |Maria| 20|
-
 | José| 40|
-
-+-----+---+
 
 schema = 'Id INT, Nome STRING'      (Definindo o schema)
 
