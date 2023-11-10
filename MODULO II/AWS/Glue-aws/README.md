@@ -3,23 +3,39 @@
 ### 1 - Ler Arquivo
 
 args = getResolvedOptions(sys.argv, ['JOB_NAME', 'S3_INPUT_PATH', 'S3_TARGET_PATH'])
+
 sc = SparkContext()
+
 glueContext = GlueContext(sc)
+
 spark = glueContext.spark_session
+
 job = Job(glueContext)
+
 job.init(args["JOB_NAME"], args)
 
+
 source_file = args['S3_INPUT_PATH']
+
 target_path = args['S3_TARGET_PATH']
 
+
 df = glueContext.create_dynamic_frame.from_options(
+
     "s3", {
+
         "paths": [source_file]
+
     },
+
     "csv", {
+
         "withHeader": True,
+
         "separator": ","
+
     }
+
 )
 
 
@@ -29,9 +45,13 @@ df = glueContext.create_dynamic_frame.from_options(
 df.printSchema()
 
 >root
+
 >|-- nome: string
+
 >|-- sexo: string
+
 >|-- total: string
+
 >|-- ano: string
 
 
@@ -42,15 +62,22 @@ ToDataFrame = df.toDF()
 df2 = ToDataFrame.withColumn("nome", upper(col("nome")))
 
 >{"nome":"MARY","total":"7065"}
+
 >{"nome":"ANNA","total":"2604"}
+
 >{"nome":"EMMA","total":"2003"}
+
 >{"nome":"ELIZABETH","total":"1939"}
+
 >{"nome":"MINNIE","total":"1746"}
+
 >{"nome":"MARGARET","total":"1578"}
+
 
 ### 4 - Imprimir contagem de linhas
 
 count_result = df2.count()
+
 print(f"Number of lines in DataFrame: {count_result}")
 
 >Number of lines in DataFrame: 1825433
@@ -58,6 +85,7 @@ print(f"Number of lines in DataFrame: {count_result}")
 ### 5 - Imprimir a contagem  de nomes, agrupando os dados do data frame pelas colunas ano e sexo, e ordenar os dados de forma que o ano mais recente apareça primeiro no DataFrame
 
 agrupar = df2.groupBy("ano", "sexo").agg(count("nome").alias("count")).orderBy("ano", desc("count"))
+
 agrupar.show()
 
 | ano  | sexo | count |
@@ -82,6 +110,7 @@ agrupar.show()
 | 1888 |  M   | 1177  |
 | 1889 |  F   | 1479  |
 | 1889 |  M   | 1111  |
+
 only showing top 20 rows
 
 ### 6 - Apresentar qual foi o nome feminino com mais registro e quando ocorreu
@@ -112,7 +141,9 @@ only showing top 10 rows
 ### 9 - Escrever o conteúdo em Maiusculo no S3 em JSON e particionar por sexo e ano 
 
 ![Particionamento por sexo](/img/particao-sexo.png)
+
 ![Particionamento por ano](/img/particao-ano.png)
+
 ![Salvando em json e UpperCase](/img/salvos-json-uppercase.png)
 
 ### 10 - Código Full
