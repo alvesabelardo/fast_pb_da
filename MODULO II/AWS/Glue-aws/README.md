@@ -113,85 +113,84 @@ only showing top 10 rows
 
 ![Particionamento por sexo](/img/particao-sexo.png)
 ![Particionamento por ano](/img/particao-ano.png)
-![Salvando em json e UpperCase](/img/salvos-json-uppercase.png.png)
+![Salvando em json e UpperCase](/img/salvos-json-uppercase.png)
 
 ### 10 - Código Full
 
-import sys
-from awsglue.transforms import *
-from awsglue.utils import getResolvedOptions
-from pyspark.context import SparkContext
-from awsglue.dynamicframe import DynamicFrame
-from awsglue.context import GlueContext
-from awsglue.job import Job
-from pyspark.sql.functions import *
-from pyspark.sql.types import StringType
+>import sys
+>from awsglue.transforms import *
+>from awsglue.utils import getResolvedOptions
+>from pyspark.context import SparkContext
+>from awsglue.dynamicframe import DynamicFrame
+>from awsglue.context import GlueContext
+>from awsglue.job import Job
+>from pyspark.sql.functions import *
+>from pyspark.sql.types import StringType
+>
+>args = getResolvedOptions(sys.argv, ['JOB_NAME', 'S3_INPUT_PATH', 'S3_TARGET_PATH'])
+>sc = SparkContext()
+>glueContext = GlueContext(sc)
+>spark = glueContext.spark_session
+>job = Job(glueContext)
+>job.init(args["JOB_NAME"], args)
+>
+>source_file = args['S3_INPUT_PATH']
+>target_path = args['S3_TARGET_PATH']
+>
+>df = glueContext.create_dynamic_frame.from_options(
+>    "s3", {
+>        "paths": [source_file]
+>    },
+>    "csv", {
+>        "withHeader": True,
+>        "separator": ","
+>    }
+>)
+>#Print Schema
+>df.printSchema()
+>
+>#UpperCase
+>upper = udf(lambda x: x.upper(), StringType())
+>ToDataFrame = df.toDF()
+>df2 = ToDataFrame.withColumn("nome", upper(col("nome")))
+>
+>#Count Lines
+>count_result = df2.count()
+>print(f"Number of lines in DataFrame: {count_result}")
+>
+>#Agrupa por ano e sexo
+>agrupar = df2.groupBy("ano", "sexo").agg(count("nome").alias("count")).orderBy("ano", desc("count"))
+>agrupar.show()
+>
+>#Maximo Registros femininos 
+>nomes_femininos = df2.filter(df2["sexo"] == "F")
+>agg_nome_feminino = nomes_femininos.select("nome","total", "ano").orderBy(desc("total"))
+>result_max_registros_f = agg_nome_feminino.first()
+>nome_max_registros_f = result_max_registros_f["nome"]
+>count_max_registros_f = result_max_registros_f["total"]
+>ano_ocorreu_f = result_max_registros_f["ano"]
+>print(f"O nome feminino com mais registros foi {nome_max_registros_f} com {count_max_registros_f} registros, no ano {ano_ocorreu_f}")
+>
+>#Maximo Registros masculinos
+>nomes_masculinos = df2.filter(df2["sexo"] == "M")
+>agg_nome_masculino = nomes_masculinos.select("nome","total", "ano").orderBy(desc("total"))
+>result_max_registros_m = agg_nome_masculino.first()
+>nome_max_registros_m = result_max_registros_m["nome"]
+>count_max_registros_m = result_max_registros_m["total"]
+>ano_ocorreu_m = result_max_registros_m["ano"]
+>print(f"O nome masculino com mais registros foi {nome_max_registros_m} com {count_max_registros_m} registros, no ano {ano_ocorreu_m}")
 
-args = getResolvedOptions(sys.argv, ['JOB_NAME', 'S3_INPUT_PATH', 'S3_TARGET_PATH'])
-sc = SparkContext()
-glueContext = GlueContext(sc)
-spark = glueContext.spark_session
-job = Job(glueContext)
-job.init(args["JOB_NAME"], args)
-
-source_file = args['S3_INPUT_PATH']
-target_path = args['S3_TARGET_PATH']
-
-df = glueContext.create_dynamic_frame.from_options(
-    "s3", {
-        "paths": [source_file]
-    },
-    "csv", {
-        "withHeader": True,
-        "separator": ","
-    }
-)
-#Print Schema
-df.printSchema()
-
-#UpperCase
-upper = udf(lambda x: x.upper(), StringType())
-ToDataFrame = df.toDF()
-df2 = ToDataFrame.withColumn("nome", upper(col("nome")))
-
-#Count Lines
-count_result = df2.count()
-print(f"Number of lines in DataFrame: {count_result}")
-
-#Agrupa por ano e sexo
-agrupar = df2.groupBy("ano", "sexo").agg(count("nome").alias("count")).orderBy("ano", desc("count"))
-agrupar.show()
-
-#Maximo Registros femininos 
-nomes_femininos = df2.filter(df2["sexo"] == "F")
-agg_nome_feminino = nomes_femininos.select("nome","total", "ano").orderBy(desc("total"))
-result_max_registros_f = agg_nome_feminino.first()
-nome_max_registros_f = result_max_registros_f["nome"]
-count_max_registros_f = result_max_registros_f["total"]
-ano_ocorreu_f = result_max_registros_f["ano"]
-print(f"O nome feminino com mais registros foi {nome_max_registros_f} com {count_max_registros_f} registros, no ano {ano_ocorreu_f}")
-
-#Maximo Registros masculinos
-nomes_masculinos = df2.filter(df2["sexo"] == "M")
-agg_nome_masculino = nomes_masculinos.select("nome","total", "ano").orderBy(desc("total"))
-result_max_registros_m = agg_nome_masculino.first()
-nome_max_registros_m = result_max_registros_m["nome"]
-count_max_registros_m = result_max_registros_m["total"]
-ano_ocorreu_m = result_max_registros_m["ano"]
-print(f"O nome masculino com mais registros foi {nome_max_registros_m} com {count_max_registros_m} registros, no ano {ano_ocorreu_m}")
-
-#Total registros masculinos e nomes_femininos
-total_registros = df2.groupBy("ano").agg(count("*").alias("total_registros")).orderBy(asc("ano"))
-total_registros.show(10)
-
-df3 = DynamicFrame.fromDF(df2, glueContext,"dynamic_frame")
-
-#Escreve o DynamicFrame no AWS Glue Catalog com partições
-glueContext.write_dynamic_frame.from_catalog(
-    frame=df3,
-    database="meubanco",
-    table_name="frequencia_nomes",
-    additional_options={"partitionKeys": ["sexo", "ano"]}
-)
-
-job.commit()
+>#Total registros masculinos e nomes_femininos
+>total_registros = df2.groupBy("ano").agg(count("*").alias("total_registros")).orderBy(asc("ano"))
+>total_registros.show(10)
+>
+>df3 = DynamicFrame.fromDF(df2, glueContext,"dynamic_frame")
+>
+>#Escreve o DynamicFrame no AWS Glue Catalog com partições
+>glueContext.write_dynamic_frame.from_catalog(
+>    frame=df3,
+>    database="meubanco",
+>   table_name="frequencia_nomes",
+>   additional_options={"partitionKeys": ["sexo", "ano"]})
+>
+>job.commit()
