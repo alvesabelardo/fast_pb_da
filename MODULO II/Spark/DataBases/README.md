@@ -22,21 +22,7 @@ park.sql("show create table Despachantes").show(truncate=False)     (vê como a 
 
 truncate=False -> Os dados não são truncados no console.
 
-> +-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-> |createtab_stmt                                                                                                                                               |
-> +-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-> |CREATE TABLE spark_catalog.desp.Despachantes (id INT,
->                                               nome STRING,
->                                               status STRING,
->                                               cidade STRING,
->                                               vendas INT,
->                                               data STRING)
->                                               USING parquet
-> +-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
 spark.catalog.listTables()          (listar tabelas do DB)
-
-> [Table(name='despachantes', catalog='spark_catalog', namespace=['desp'], description=None, tableType='MANAGED', isTemporary=False), Table(name='despachantes_ng', catalog='spark_catalog', namespace=['desp'], description=None, tableType='EXTERNAL', isTemporary=False)]
 
 ## Views
 
@@ -54,9 +40,10 @@ spark.sql("CREATE OR REPLACE TEMP VIEW DESP_VIEW AS select * from despachantes")
 
 ## Exemplos Spark Sintax X SQL Sintax
 
+```Py
 spark.sql("select nome, vendas from Despachantes").show()
-
 despachantes.select("nome","vendas").show()
+```
 
 |               nome       | vendas |
 | ----------------------- | ------- |
@@ -72,10 +59,10 @@ despachantes.select("nome","vendas").show()
 | Viviana Sequeira       | 0       |
 
 
-
+```Py
 spark.sql("select nome, vendas from Despachantes where vendas > 20").show()
-
 despachantes.select("nome","vendas").where(Func.col("vendas") > 20).show()
+```
 
 |               nome       | vendas |
 | ----------------------- | ------- |
@@ -88,8 +75,10 @@ despachantes.select("nome","vendas").where(Func.col("vendas") > 20).show()
 | Roque Vásquez          | 65      |
 | Uriel Queiroz          | 54      |
 
+```Py
 spark.sql("select cidade, sum(vendas) from Despachantes group by cidade order by 2 desc").show()
 despachantes.groupby("cidade").agg(sum("vendas")).orderBy(Func.col("sum(vendas)").desc()).show()
+```
 
 |   cidade      | sum(vendas) |
 | ------------- | ----------- |
@@ -103,36 +92,31 @@ despachantes.groupby("cidade").agg(sum("vendas")).orderBy(Func.col("sum(vendas)"
 
 *Importando arquivos*
 
+```Py
 clientes = spark.read.load("/home/abel/download/Atividades/Clientes.parquet")
-
 vendas = spark.read.load("/home/abel/download/Atividades/Vendas.parquet")
-
 itensVendas = spark.read.load("/home/abel/download/Atividades/ItensVendas.parquet")
-
 produtos = spark.read.load("/home/abel/download/Atividades/Produtos.parquet")
-
 vendedores = spark.read.load("/home/abel/download/Atividades/Vendedores.parquet")
-
+```
 
 *Criando database*
 
+```Py
 spark.sql("create database VendasVarejo").show()
-
 spark.sql("use VendasVarejo")
+```
 
 *Salvando DataFrames*
 
+```Py
 clientes.write.saveAsTable("clientes")
-
 vendas.write.saveAsTable("vendas")
-
 itensVendas.write.saveAsTable("itensVendas")
-
 produtos.write.saveAsTable("produtos")
-
 vendedores.write.saveAsTable("vendedores")
-
 spark.sql("show tables").show()
+```
 
 |   namespace    |  tableName  | isTemporary |
 | --------------- | ----------- | ----------- |
@@ -142,8 +126,9 @@ spark.sql("show tables").show()
 | vendasvarejo    | vendas      | false       |
 | vendasvarejo    | vendedores  | false       |
 
-
+```Py
 spark.sql("select * from produtos").show()
+```
 
 | ProdutoID | Produto                                 | Preco   |
 | ---------  | --------------------------------------- | -------  |
@@ -161,17 +146,14 @@ spark.sql("select * from produtos").show()
 
 #### 2 - Criar uma consulta mostrando cada item vendido: Nome do Cliente, Data da Venda, Produto, Vendedor, e Valor Total.
 
+```Py
 spark.sql("use vendasvarejo")
-
 spark.sql("select c.cliente, v.data, p.produto, vd.vendedor, iv.valortotal from itensvendas iv
-
 inner join produtos p on (p.produtoid = iv.produtoid)
-
 inner join vendas v on (v.vendasid = iv.vendasid) 
-
 inner join vendedores vd on (vd.vendedorid = v.vendedorid) 
-
 inner join clientes c on (c.clienteid = v.clienteid)").show()
+```
 
 
 |         Cliente          |    Data    |           Produto            |      Vendedor      | Valor Total |
