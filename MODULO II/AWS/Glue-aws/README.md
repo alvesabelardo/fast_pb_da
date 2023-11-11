@@ -2,15 +2,27 @@
 
 ### 1 - Ler Arquivo
 ```Python
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.dynamicframe import DynamicFrame
+from awsglue.context import GlueContext
+from awsglue.job import Job
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
 args = getResolvedOptions(sys.argv, ['JOB_NAME', 'S3_INPUT_PATH', 'S3_TARGET_PATH'])
 sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args["JOB_NAME"], args)
+
 source_file = args['S3_INPUT_PATH']
 target_path = args['S3_TARGET_PATH']
-df = glueContext.create_dynamic_frame.from_options(
+
+dyf = glueContext.create_dynamic_frame.from_options(
     "s3", {
         "paths": [source_file]
     },
@@ -19,6 +31,11 @@ df = glueContext.create_dynamic_frame.from_options(
         "separator": ","
     }
 )
+
+#Alterando Schema
+ToDataFrame = dyf.toDF()
+ToDataFrame = ToDataFrame.withColumn("total", col("total").cast("int"))
+ToDataFrame = ToDataFrame.withColumn("ano", to_date(col("ano"), "yyyy").cast(DateType()))
 ```
 
 ### 2 - Imprimir Schema do DataFrame
@@ -27,17 +44,16 @@ df.printSchema()
 
 ```
 root
-|-- nome: string
-|-- sexo: string
-|-- total: string
-|-- ano: string
+ |-- nome: string 
+ |-- sexo: string 
+ |-- total: integer 
+ |-- ano: date 
 ```
 
 ### 3 - Alterar os Valores para maiúsculo 
 ```Py
 upper = udf(lambda x: x.upper(), StringType())
-ToDataFrame = df.toDF()
-df2 = ToDataFrame.withColumn("nome", upper(col("nome")))
+df = ToDataFrame.withColumn("nome", upper(col("nome")))
 ```
 
 ```Json
@@ -51,42 +67,41 @@ df2 = ToDataFrame.withColumn("nome", upper(col("nome")))
 
 ### 4 - Imprimir contagem de linhas
 ```Py
-count_result = df2.count()
+count_result = df.count()
 print(f"Number of lines in DataFrame: {count_result}")
 ```
-
+![Linhas DataFrame](/img/linhas_dataframe.png)
 >Number of lines in DataFrame: 1825433
 
 ### 5 - Imprimir a contagem  de nomes, agrupando os dados do data frame pelas colunas ano e sexo, e ordenar os dados de forma que o ano mais recente apareça primeiro no DataFrame
 
 ```Py
-agrupar = df2.groupBy("ano", "sexo").agg(count("nome").alias("count")).orderBy("ano", desc("count"))
+agrupar =  df.groupBy("ano", "sexo").agg(count("*").alias("count")).orderBy("ano", ascending=False)
 agrupar.show()
 ```
 
-| ano  | sexo | count |
-|------|------|-------|
-| 1880 |  M   | 1058  |
-| 1880 |  F   |  942  |
-| 1881 |  M   |  997  |
-| 1881 |  F   |  938  |
-| 1882 |  M   | 1099  |
-| 1882 |  F   | 1028  |
-| 1883 |  F   | 1054  |
-| 1883 |  M   | 1030  |
-| 1884 |  F   | 1172  |
-| 1884 |  M   | 1125  |
-| 1885 |  F   | 1197  |
-| 1885 |  M   | 1097  |
-| 1886 |  F   | 1282  |
-| 1886 |  M   | 1110  |
-| 1887 |  F   | 1306  |
-| 1887 |  M   | 1067  |
-| 1888 |  F   | 1474  |
-| 1888 |  M   | 1177  |
-| 1889 |  F   | 1479  |
-| 1889 |  M   | 1111  |
-
+|    ano     | sexo | count |
+|------------|------|-------|
+| 2014-01-01 |   M  | 13977 |
+| 2014-01-01 |   F  | 19067 |
+| 2013-01-01 |   M  | 14012 |
+| 2013-01-01 |   F  | 19191 |
+| 2012-01-01 |   M  | 14216 |
+| 2012-01-01 |   F  | 19468 |
+| 2011-01-01 |   F  | 19540 |
+| 2011-01-01 |   M  | 14329 |
+| 2010-01-01 |   F  | 19800 |
+| 2010-01-01 |   M  | 14241 |
+| 2009-01-01 |   F  | 20165 |
+| 2009-01-01 |   M  | 14519 |
+| 2008-01-01 |   F  | 20439 |
+| 2008-01-01 |   M  | 14606 |
+| 2007-01-01 |   M  | 14383 |
+| 2007-01-01 |   F  | 20548 |
+| 2006-01-01 |   M  | 14026 |
+| 2006-01-01 |   F  | 20043 |
+| 2005-01-01 |   F  | 19175 |
+| 2005-01-01 |   M  | 13358 |
 only showing top 20 rows
 
 ### 6 - Apresentar qual foi o nome feminino com mais registro e quando ocorreu
@@ -98,21 +113,24 @@ only showing top 20 rows
 ![Registros Masculinos](/img/registros_M.png)
 
 ### 8 - Apresentar o total de registros (masculino e femininos) para cada ano e ordenar de forma crescente
+```Py
+total_registros = df.groupBy("ano", "sexo").agg(sum("total").alias("total_registros")).orderBy("ano")
+total_registros.show(10)
+```
 
-| ano  | total_registros |
-|------|------------------|
-| 1880 | 2000             |
-| 1881 | 1935             |
-| 1882 | 2127             |
-| 1883 | 2084             |
-| 1884 | 2297             |
-| 1885 | 2294             |
-| 1886 | 2392             |
-| 1887 | 2373             |
-| 1888 | 2651             |
-| 1889 | 2590             |
+|       ano      | sexo | total_registros |
+|--------------|----|---------------|
+| 1880-01-01 |   M  |     110491      |
+| 1880-01-01 |   F  |      90993      |
+| 1881-01-01 |   F  |      91954      |
+| 1881-01-01 |   M  |     100745      |
+| 1882-01-01 |   M  |     113688      |
+| 1882-01-01 |   F  |     107850      |
+| 1883-01-01 |   F  |     112321      |
+| 1883-01-01 |   M  |     104629      |
+| 1884-01-01 |   M  |     114445      |
+| 1884-01-01 |   F  |     129022      |
 
-only showing top 10 rows
 
 ### 9 - Escrever o conteúdo em Maiusculo no S3 em JSON e particionar por sexo e ano 
 
@@ -124,7 +142,7 @@ only showing top 10 rows
 
 ### 10 - Código Full
 
-```Python
+```Py
 import sys
 from awsglue.transforms import *
 from awsglue.utils import getResolvedOptions
@@ -133,7 +151,7 @@ from awsglue.dynamicframe import DynamicFrame
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from pyspark.sql.functions import *
-from pyspark.sql.types import StringType
+from pyspark.sql.types import *
 
 args = getResolvedOptions(sys.argv, ['JOB_NAME', 'S3_INPUT_PATH', 'S3_TARGET_PATH'])
 sc = SparkContext()
@@ -145,7 +163,7 @@ job.init(args["JOB_NAME"], args)
 source_file = args['S3_INPUT_PATH']
 target_path = args['S3_TARGET_PATH']
 
-df = glueContext.create_dynamic_frame.from_options(
+dyf = glueContext.create_dynamic_frame.from_options(
     "s3", {
         "paths": [source_file]
     },
@@ -154,24 +172,29 @@ df = glueContext.create_dynamic_frame.from_options(
         "separator": ","
     }
 )
-#Print Schema
-df.printSchema()
 
-#UpperCase
+#Alterando Schema
+ToDataFrame = dyf.toDF()
+ToDataFrame = ToDataFrame.withColumn("total", col("total").cast("int"))
+ToDataFrame = ToDataFrame.withColumn("ano", to_date(col("ano"), "yyyy").cast(DateType()))
+
+# Transformação da coluna "nome" para uppercase
 upper = udf(lambda x: x.upper(), StringType())
-ToDataFrame = df.toDF()
-df2 = ToDataFrame.withColumn("nome", upper(col("nome")))
+df = ToDataFrame.withColumn("nome", upper(col("nome")))
 
-#Count Lines
-count_result = df2.count()
+# Print schema
+ToDataFrame.printSchema()
+
+# Count Lines
+count_result = df.count()
 print(f"Number of lines in DataFrame: {count_result}")
 
 # Agrupa por ano e sexo
-agrupar = df2.groupBy("ano", "sexo").agg(count("nome").alias("count")).orderBy("ano", desc("count"))
+agrupar =  df.groupBy("ano", "sexo").agg(count("*").alias("count")).orderBy("ano", ascending=False)
 agrupar.show()
 
 #Maximo Registros femininos 
-nomes_femininos = df2.filter(df2["sexo"] == "F")
+nomes_femininos = df.filter(df["sexo"] == "F")
 agg_nome_feminino = nomes_femininos.select("nome","total", "ano").orderBy(desc("total"))
 result_max_registros_f = agg_nome_feminino.first()
 nome_max_registros_f = result_max_registros_f["nome"]
@@ -180,7 +203,7 @@ ano_ocorreu_f = result_max_registros_f["ano"]
 print(f"O nome feminino com mais registros foi {nome_max_registros_f} com {count_max_registros_f} registros, no ano {ano_ocorreu_f}")
 
 #Maximo Registros masculinos
-nomes_masculinos = df2.filter(df2["sexo"] == "M")
+nomes_masculinos = df.filter(df["sexo"] == "M")
 agg_nome_masculino = nomes_masculinos.select("nome","total", "ano").orderBy(desc("total"))
 result_max_registros_m = agg_nome_masculino.first()
 nome_max_registros_m = result_max_registros_m["nome"]
@@ -188,15 +211,15 @@ count_max_registros_m = result_max_registros_m["total"]
 ano_ocorreu_m = result_max_registros_m["ano"]
 print(f"O nome masculino com mais registros foi {nome_max_registros_m} com {count_max_registros_m} registros, no ano {ano_ocorreu_m}")
 
-#Total registros masculinos e nomes_femininos
-total_registros = df2.groupBy("ano").agg(count("*").alias("total_registros")).orderBy(asc("ano"))
+#Total registros masculinos e femininos
+total_registros = df.groupBy("ano", "sexo").agg(sum("total").alias("total_registros")).orderBy("ano")
 total_registros.show(10)
 
-df3 = DynamicFrame.fromDF(df2, glueContext,"dynamic_frame")
+df = DynamicFrame.fromDF(df, glueContext,"dynamic_frame")
 
 # Escreve o DynamicFrame no AWS Glue Catalog com partições
 glueContext.write_dynamic_frame.from_catalog(
-    frame=df3,
+    frame=df,
     database="meubanco",
     table_name="frequencia_nomes",
     additional_options={"partitionKeys": ["sexo", "ano"]}
