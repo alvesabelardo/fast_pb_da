@@ -1,0 +1,4 @@
+/input-local/app/dados/movies.csv
+/input-local/app/dados/series.csv
+/etapa-2-lambda/layers/fsspec-layer.zip
+/etapa-2-lambda/layers/modulos-layer.zip

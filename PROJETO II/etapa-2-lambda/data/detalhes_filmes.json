@@ -1,0 +1,484 @@
+[
+    {
+        "imdb_id": "tt0108330",
+        "lingua_original": "en",
+        "popularidade": 17.63,
+        "generos": [
+            "Drama"
+        ],
+        "produtoras": [
+            "Knickerbocker Films",
+            "Warner Bros. Pictures"
+        ],
+        "orcamento": 0,
+        "receita": 4104962
+    },
+    {
+        "imdb_id": "tt0108550",
+        "lingua_original": "en",
+        "popularidade": 29.242,
+        "generos": [
+            "Romance",
+            "Drama"
+        ],
+        "produtoras": [
+            "Paramount"
+        ],
+        "orcamento": 11000000,
+        "receita": 10032765
+    },
+    {
+        "imdb_id": "tt0112461",
+        "lingua_original": "en",
+        "popularidade": 27.316,
+        "generos": [
+            "Drama",
+            "Crime"
+        ],
+        "produtoras": [
+            "New Line Cinema",
+            "Island Pictures"
+        ],
+        "orcamento": 2000000,
+        "receita": 2381087
+    },
+    {
+        "imdb_id": "tt0114214",
+        "lingua_original": "en",
+        "popularidade": 21.779,
+        "generos": [
+            "Western",
+            "Action"
+        ],
+        "produtoras": [
+            "TriStar Pictures",
+            "IndieProd Company Productions"
+        ],
+        "orcamento": 35000000,
+        "receita": 47000000
+    },
+    {
+        "imdb_id": "tt0114702",
+        "lingua_original": "en",
+        "popularidade": 11.948,
+        "generos": [
+            "Drama",
+            "Romance"
+        ],
+        "produtoras": [
+            "FIT Productions",
+            "Portman Productions",
+            "SFP"
+        ],
+        "orcamento": 0,
+        "receita": 339889
+    },
+    {
+        "imdb_id": "tt0116999",
+        "lingua_original": "en",
+        "popularidade": 11.644,
+        "generos": [
+            "Drama"
+        ],
+        "produtoras": [
+            "Tribeca Productions",
+            "Miramax",
+            "Scott Rudin Productions"
+        ],
+        "orcamento": 23000000,
+        "receita": 12803305
+    },
+    {
+        "imdb_id": "tt0117509",
+        "lingua_original": "en",
+        "popularidade": 26.538,
+        "generos": [
+            "Drama",
+            "Romance"
+        ],
+        "produtoras": [
+            "20th Century Fox",
+            "Bazmark"
+        ],
+        "orcamento": 14500000,
+        "receita": 147298761
+    },
+    {
+        "imdb_id": "tt0119004",
+        "lingua_original": "en",
+        "popularidade": 8.907,
+        "generos": [
+            "Drama"
+        ],
+        "produtoras": [
+            "Polo Pictures Entertainment",
+            "Trust Film Svenska",
+            "Zentropa Entertainments"
+        ],
+        "orcamento": 0,
+        "receita": 6297
+    },
+    {
+        "imdb_id": "tt0120338",
+        "lingua_original": "en",
+        "popularidade": 115.998,
+        "generos": [
+            "Drama",
+            "Romance"
+        ],
+        "produtoras": [
+            "Paramount",
+            "20th Century Fox",
+            "Lightstorm Entertainment"
+        ],
+        "orcamento": 200000000,
+        "receita": 2264162353
+    },
+    {
+        "imdb_id": "tt0120533",
+        "lingua_original": "en",
+        "popularidade": 12.537,
+        "generos": [
+            "Drama",
+            "Comedy"
+        ],
+        "produtoras": [
+            "Sweetland Films",
+            "Miramax",
+            "Jean Doumanian Productions"
+        ],
+        "orcamento": 0,
+        "receita": 0
+    },
+    {
+        "imdb_id": "tt0120744",
+        "lingua_original": "en",
+        "popularidade": 23.347,
+        "generos": [
+            "Adventure",
+            "Action",
+            "Drama"
+        ],
+        "produtoras": [
+            "United Artists",
+            "Metro-Goldwyn-Mayer"
+        ],
+        "orcamento": 35000000,
+        "receita": 182968902
+    },
+    {
+        "imdb_id": "tt0163978",
+        "lingua_original": "en",
+        "popularidade": 19.163,
+        "generos": [
+            "Drama",
+            "Adventure",
+            "Romance",
+            "Thriller"
+        ],
+        "produtoras": [
+            "Figment Films"
+        ],
+        "orcamento": 40000000,
+        "receita": 144056873
+    },
+    {
+        "imdb_id": "tt0217505",
+        "lingua_original": "en",
+        "popularidade": 32.033,
+        "generos": [
+            "Drama",
+            "History",
+            "Crime"
+        ],
+        "produtoras": [
+            "Miramax",
+            "Touchstone Pictures",
+            "Initial Entertainment Group",
+            "Alberto Grimaldi Productions"
+        ],
+        "orcamento": 100000000,
+        "receita": 193772504
+    },
+    {
+        "imdb_id": "tt0264464",
+        "lingua_original": "en",
+        "popularidade": 70.036,
+        "generos": [
+            "Drama",
+            "Crime"
+        ],
+        "produtoras": [
+            "Parkes/MacDonald Productions",
+            "Kemp Company",
+            "Splendid Pictures"
+        ],
+        "orcamento": 52000000,
+        "receita": 352114312
+    },
+    {
+        "imdb_id": "tt0338751",
+        "lingua_original": "en",
+        "popularidade": 21.056,
+        "generos": [
+            "Drama"
+        ],
+        "produtoras": [
+            "Warner Bros. Pictures",
+            "Miramax",
+            "Initial Entertainment Group",
+            "Forward Pass",
+            "Appian Way",
+            "IMF Internationale Medien und Film GmbH & Co. Produktions KG"
+        ],
+        "orcamento": 110000000,
+        "receita": 213700000
+    },
+    {
+        "imdb_id": "tt0407887",
+        "lingua_original": "en",
+        "popularidade": 48.69,
+        "generos": [
+            "Drama",
+            "Thriller",
+            "Crime"
+        ],
+        "produtoras": [
+            "Vertigo Entertainment",
+            "Media Asia Films",
+            "Initial Entertainment Group",
+            "Warner Bros. Pictures",
+            "Plan B Entertainment"
+        ],
+        "orcamento": 90000000,
+        "receita": 291465000
+    },
+    {
+        "imdb_id": "tt0450259",
+        "lingua_original": "en",
+        "popularidade": 51.306,
+        "generos": [
+            "Drama",
+            "Thriller",
+            "Action"
+        ],
+        "produtoras": [
+            "Virtual Studios",
+            "Spring Creek Productions",
+            "Bedford Falls Productions",
+            "Initial Entertainment Group",
+            "Lonely Film Productions GmbH & Co. KG.",
+            "Warner Bros. Pictures",
+            "Liberty Pictures"
+        ],
+        "orcamento": 100000000,
+        "receita": 171720398
+    },
+    {
+        "imdb_id": "tt0758774",
+        "lingua_original": "en",
+        "popularidade": 18.193,
+        "generos": [
+            "Action",
+            "Drama",
+            "Thriller"
+        ],
+        "produtoras": [
+            "Scott Free Productions",
+            "De Line Pictures",
+            "Warner Bros. Pictures"
+        ],
+        "orcamento": 70000000,
+        "receita": 113280098
+    },
+    {
+        "imdb_id": "tt0959337",
+        "lingua_original": "en",
+        "popularidade": 28.383,
+        "generos": [
+            "Drama",
+            "Romance"
+        ],
+        "produtoras": [
+            "DreamWorks Pictures",
+            "BBC Film",
+            "Evamere Entertainment",
+            "Neal Street Productions"
+        ],
+        "orcamento": 35000000,
+        "receita": 75981180
+    },
+    {
+        "imdb_id": "tt0993846",
+        "lingua_original": "en",
+        "popularidade": 88.32,
+        "generos": [
+            "Crime",
+            "Drama",
+            "Comedy"
+        ],
+        "produtoras": [
+            "Red Granite Pictures",
+            "Appian Way",
+            "Sikelia Productions",
+            "EMJAG Productions",
+            "Paramount"
+        ],
+        "orcamento": 100000000,
+        "receita": 392000000
+    },
+    {
+        "imdb_id": "tt11286314",
+        "lingua_original": "en",
+        "popularidade": 33.466,
+        "generos": [
+            "Comedy",
+            "Science Fiction",
+            "Drama"
+        ],
+        "produtoras": [
+            "Hyperobject Industries"
+        ],
+        "orcamento": 75000000,
+        "receita": 791863
+    },
+    {
+        "imdb_id": "tt1130884",
+        "lingua_original": "en",
+        "popularidade": 56.14,
+        "generos": [
+            "Drama",
+            "Thriller",
+            "Mystery"
+        ],
+        "produtoras": [
+            "Paramount",
+            "Phoenix Pictures",
+            "Sikelia Productions",
+            "Appian Way"
+        ],
+        "orcamento": 80000000,
+        "receita": 294800000
+    },
+    {
+        "imdb_id": "tt1343092",
+        "lingua_original": "en",
+        "popularidade": 35.779,
+        "generos": [
+            "Drama",
+            "Romance"
+        ],
+        "produtoras": [
+            "Warner Bros. Pictures",
+            "Village Roadshow Pictures",
+            "Bazmark",
+            "Red Wagon Entertainment",
+            "A&E Television Networks"
+        ],
+        "orcamento": 105000000,
+        "receita": 351040419
+    },
+    {
+        "imdb_id": "tt1375666",
+        "lingua_original": "en",
+        "popularidade": 121.029,
+        "generos": [
+            "Action",
+            "Science Fiction",
+            "Adventure"
+        ],
+        "produtoras": [
+            "Legendary Pictures",
+            "Syncopy",
+            "Warner Bros. Pictures"
+        ],
+        "orcamento": 160000000,
+        "receita": 825532764
+    },
+    {
+        "imdb_id": "tt1616195",
+        "lingua_original": "en",
+        "popularidade": 14.842,
+        "generos": [
+            "Drama",
+            "Crime",
+            "History"
+        ],
+        "produtoras": [
+            "Imagine Entertainment",
+            "Malpaso Productions",
+            "Wintergreen Productions",
+            "Warner Bros. Pictures"
+        ],
+        "orcamento": 35000000,
+        "receita": 84606030
+    },
+    {
+        "imdb_id": "tt1663202",
+        "lingua_original": "en",
+        "popularidade": 50.247,
+        "generos": [
+            "Western",
+            "Drama",
+            "Adventure"
+        ],
+        "produtoras": [
+            "Monarchy Enterprises S.a.r.l.",
+            "Regency Enterprises",
+            "Appian Way",
+            "CatchPlay",
+            "Anonymous Content",
+            "New Regency Pictures",
+            "Hong Kong Alpha Motion Pictures Co.",
+            "M Productions",
+            "RatPac Entertainment"
+        ],
+        "orcamento": 135000000,
+        "receita": 532950503
+    },
+    {
+        "imdb_id": "tt1853728",
+        "lingua_original": "en",
+        "popularidade": 51.802,
+        "generos": [
+            "Drama",
+            "Western"
+        ],
+        "produtoras": [
+            "The Weinstein Company",
+            "Columbia Pictures"
+        ],
+        "orcamento": 100000000,
+        "receita": 425368238
+    },
+    {
+        "imdb_id": "tt7131622",
+        "lingua_original": "en",
+        "popularidade": 51.003,
+        "generos": [
+            "Comedy",
+            "Drama",
+            "Thriller"
+        ],
+        "produtoras": [
+            "Heyday Films",
+            "Columbia Pictures",
+            "Bona Film Group"
+        ],
+        "orcamento": 95000000,
+        "receita": 374251247
+    },
+    {
+        "imdb_id": "tt9114472",
+        "lingua_original": "en",
+        "popularidade": 4.921,
+        "generos": [
+            "Documentary"
+        ],
+        "produtoras": [
+            "Tree Media"
+        ],
+        "orcamento": 0,
+        "receita": 0
+    }
+]
