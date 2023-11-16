@@ -18,10 +18,11 @@ O código foi desenvolvido a fim de filtrar e trazer informações adicionas da 
 **Primeiramente foram definidas todas as saidas e entradas de arquivos:**
 
 ```py
-filmes = 'data-lake-projeto-2/Raw/input-local/2023/11/14/filmes.csv'
-output_imdbs = 'data-lake-projeto-2/Raw/input-lambda/2023/11/15/imdbs_id.csv'
-output_ids = 'data-lake-projeto-2/Raw/input-lambda/2023/11/15/id_movies.csv'
-output_detalhes = 'data-lake-projeto-2/Raw/input-lambda/2023/11/15/detalhes_filmes.json'
+    bucket_name = 'projeto-2'
+    filmes = 'data-lake-projeto-2/Raw/input-local/2023/11/14/filmes.csv'
+    output_imdbs = 'data-lake-projeto-2/Raw/TMDB/CSV/2023/11/16/imdbs_id.csv'
+    output_ids = 'data-lake-projeto-2/Raw/TMDB/CSV/2023/11/16/id_movies.csv'
+    output_detalhes = 'data-lake-projeto-2/Raw/TMDB/JSON/2023/11/16/detalhes_filmes.json'
 ```
 
 - output_imdbs -> Onde os imdb_id dos filmes filtrados serão guardados.

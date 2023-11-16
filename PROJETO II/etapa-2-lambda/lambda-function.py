@@ -11,9 +11,9 @@ def lambda_handler(event, context):
 
     bucket_name = 'projeto-2'
     filmes = 'data-lake-projeto-2/Raw/input-local/2023/11/14/filmes.csv'
-    output_imdbs = 'data-lake-projeto-2/Raw/input-lambda/2023/11/15/imdbs_id.csv'
-    output_ids = 'data-lake-projeto-2/Raw/input-lambda/2023/11/15/id_movies.csv'
-    output_detalhes = 'data-lake-projeto-2/Raw/input-lambda/2023/11/15/detalhes_filmes.json'
+    output_imdbs = 'data-lake-projeto-2/Raw/TMDB/CSV/2023/11/16/imdbs_id.csv'
+    output_ids = 'data-lake-projeto-2/Raw/TMDB/CSV/2023/11/16/id_movies.csv'
+    output_detalhes = 'data-lake-projeto-2/Raw/TMDB/JSON/2023/11/16/detalhes_filmes.json'
     
     s3_client = boto3.client('s3')
     response = s3_client.get_object(Bucket=bucket_name, Key=filmes)
