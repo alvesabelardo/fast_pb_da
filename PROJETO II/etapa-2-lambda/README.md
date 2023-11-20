@@ -6,9 +6,9 @@ O código foi desenvolvido a fim de filtrar e trazer informações adicionas da 
 
 **Algumas métricas utilizadas para fazer a filtragem dos dados a fim de analisá-los são:**
 
-- Quais filmes tiveram o maior orçamento.
+- Relação orçamento e receita.
 - Quais filmes tiveram o maior lucro.
-- Quais gêneros o ator teve maior popularidade.
+- Quais gêneros atuados o ator teve maior popularidade.
 - Quais produtoras lucraram mais.
 - Quais filmes/gêneros tiveram a melhor votação.
 - Em quais gêneros o ator mais atuou.
@@ -144,4 +144,4 @@ Com os imdbs salvo em uma lista, é possível requisitar os movie_id dos filmes 
 
 - [Arquivos de Testes Locais](/PROJETO%20II/etapa-2-lambda/testes/)
 
-- [Layers](/PROJETO%20II/etapa-2-lambda/layers/Dockerfile) **Foram ignorados por razões de armazenamento**
+- [Layers](/PROJETO%20II/etapa-2-lambda/layers/Dockerfile) *Foram ignorados por razões de armazenamento*
