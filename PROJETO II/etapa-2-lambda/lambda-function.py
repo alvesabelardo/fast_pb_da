@@ -5,7 +5,7 @@ from io import StringIO
 import csv
 import os
 import json
-
+ 
 
 def lambda_handler(event, context):
 
@@ -13,23 +13,23 @@ def lambda_handler(event, context):
     filmes = 'data-lake-projeto-2/Raw/input-local/2023/11/14/filmes.csv'
     output_imdbs = 'data-lake-projeto-2/Raw/TMDB/CSV/2023/11/16/imdbs_id.csv'
     output_ids = 'data-lake-projeto-2/Raw/TMDB/CSV/2023/11/16/id_movies.csv'
-    output_detalhes = 'data-lake-projeto-2/Raw/TMDB/JSON/2023/11/16/detalhes_filmes.json'
+    output_detalhes = 'data-lake-projeto-2/Raw/TMDB/JSON/2023/11/22/detalhes_filmes.json'
     
     s3_client = boto3.client('s3')
     response = s3_client.get_object(Bucket=bucket_name, Key=filmes)
     arquivo = response['Body'].read().decode('utf-8')
     
+    
     #Filtrando filmes em que Leonardo DiCaprio atuou e salvando seus imdb_id's em uma lista
     df = pd.read_csv(StringIO(arquivo), sep='|')
     filter_filme_analisar = df[df['nomeArtista'] == 'Leonardo DiCaprio'][['id']].rename(columns={'id': 'imdb_id'})
-    
     imdb_ids = filter_filme_analisar['imdb_id'].tolist()
-    imdb_ids_str = '\n'.join(map(str, imdb_ids))
     
+    imdb_ids_str = '\n'.join(map(str, imdb_ids))
     s3_client.put_object(Body=imdb_ids_str, Bucket=bucket_name, Key=output_imdbs)
     # print(f"imdb_ids: {imdb_ids}")
     
-    #Buscando o id do filme na api pelos imdb_id's do arquivo local csv
+    #Buscando o id do filme na api pela lista
     api_key = os.environ.get('API_KEY')
     id_list = []
     for imdb_id in imdb_ids:
@@ -65,6 +65,8 @@ def lambda_handler(event, context):
         url_details = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
         response = requests.get(url_details)
         data = response.json()
+        
+        df = {}
         if 'original_title' in data:
             df = {
                 'imdb_id': data['imdb_id'],
@@ -81,8 +83,8 @@ def lambda_handler(event, context):
         else:
             print("Chave 'original_title' não encontrada nos detalhes do filme.")
             
-        json_data = json.dumps(df_complementos, indent=2)
-        
+        json_data = json.dumps(df_complementos, ensure_ascii=False, indent=4)
+            
     try:
         s3_client.put_object(Body=json_data, Bucket=bucket_name, Key=output_detalhes, ContentType='application/json')
         print("Dados Complementares em JSON salvos com sucesso.")

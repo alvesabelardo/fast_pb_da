@@ -9,7 +9,7 @@ O código foi desenvolvido a fim de filtrar e trazer informações adicionas da 
 - Relação orçamento e receita.
 - Quais filmes tiveram o maior lucro.
 - Quais gêneros atuados o ator teve maior popularidade.
-- Quais produtoras lucraram mais.
+- Quais produtoras lucraram mais e com quais filmes.
 - Quais filmes/gêneros tiveram a melhor votação.
 - Em quais gêneros o ator mais atuou.
 
