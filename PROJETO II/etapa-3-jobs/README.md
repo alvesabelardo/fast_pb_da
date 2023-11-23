@@ -227,6 +227,8 @@ Gerei uma nova coluna de *lucro*, diminuindo a receita pelo orçamento, e uma no
 
 Novamente doi criada um id único para essa coluna, utilizando *row_number* e ordenando pelo *imdb_id*
 
+É importante destacar que a API TMDB não tinha acesso a todos os dados dessa tabela, como *orçamento* e *receita* de todos os filmes, que poderam retornar alguns valores igual a zero, por falta de informações.
+
 ```py
 filme_lucro = all_data.drop('popularidade').drop('titulo').drop('lancamento').drop('duracao_minutos').drop('media_votos').drop('quantidade_votos').drop('nomeArtista')
 filme_lucro = filme_lucro.withColumn("lucro", (col("receita") - col("orcamento")).cast(IntegerType()))
