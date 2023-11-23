@@ -168,7 +168,7 @@ glueContext.write_dynamic_frame.from_options(
 
 -[Job Completo](/PROJETO%20II/etapa-3-jobs/jobs/refined-job.py)
 
-**Com a importação dos arquivos para o Catalog utilizando Crawler, na camada Refined, as tabelas foram lidas diretamentee do Catalog.**
+**Com a importação dos arquivos para o Catalog utilizando Crawler, na camada Refined, as tabelas foram lidas diretamente do Catalog.**
 
 
 ```py
@@ -227,7 +227,7 @@ Gerei uma nova coluna de *lucro*, diminuindo a receita pelo orçamento, e uma no
 
 Também foi criada um id único para essa tabela, utilizando *row_number* e ordenando pelo *imdb_id*
 
-É importante destacar que a API TMDB não tinha acesso a todos os dados dessa tabela, como *orçamento* e *receita* de todos os filmes, que poderam retornar alguns valores igual a zero, por falta de informações.
+É importante destacar que a API TMDB não tinha acesso a alguns os dados dessa tabela, como *orçamento* e *receita* de todos os filmes, que poderam retornar alguns valores igual a zero, por falta de informações.
 
 ```py
 filme_lucro = all_data.drop('popularidade').drop('titulo').drop('lancamento').drop('duracao_minutos').drop('media_votos').drop('quantidade_votos').drop('nomeArtista')
