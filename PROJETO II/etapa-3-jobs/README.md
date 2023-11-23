@@ -8,7 +8,7 @@
 
 **TARGET_PATH** - s3://projeto-2/data-lake-projeto-2/Trusted/CSV/
 
-- [Job Completo](/etapa-3-jobs/jobs/trusted-job-csv.py)
+- [Job Completo](/PROJETO%20II/etapa-3-jobs/jobs/trusted-job-csv.py)
 
 Após ter os dados necessários em um dataframe, alterei o esquema de todas as colunas
 
@@ -47,7 +47,7 @@ glueContext.write_dynamic_frame.from_options(
 
 **Lembrando que o Job Completo e detalhado se encontra aqui**
 
-- [Job Completo](/etapa-3-jobs/jobs/trusted-job-csv.py)
+- [Job Completo](/PROJETO%20II/etapa-3-jobs/jobs/trusted-job-csv.py)
 
 ## Job arquivos JSON
 
@@ -59,7 +59,7 @@ glueContext.write_dynamic_frame.from_options(
 
 **Na importação dos arquivos JSON, tive alguns problemas com o *Create Dynamic Frame*, que começou a me causar problemas com dados sendo apagados e armazenamento sendo economizado, criando Structs dentro de colunas.**
 
-Apos um tempo de pesquisa e testes, consegui importar os dados utilizando o PySpark, setando o schema anteriormente
+Após um tempo de pesquisa e testes, consegui importar os dados utilizando o PySpark, setando o schema anteriormente
 
 ```py
 sc = SparkContext()
@@ -150,7 +150,7 @@ glueContext.write_dynamic_frame.from_options(
 
 **Lembrando que o Job Completo e detalhado se encontra aqui**
 
-- [Job Completo](/etapa-3-jobs/jobs/trusted-job-csv.py)
+- [Job Completo](/PROJETO%20II/etapa-3-jobs/jobs/trusted-job-json.py)
 
 **Os dados foram passados para o Catalog utilizando Crawlers e enviados para o database *tl_trusted_zone***
 
@@ -158,7 +158,7 @@ glueContext.write_dynamic_frame.from_options(
 
 ![Banco de Dados](/img/databases.png)
 
-![Tabelas Trusted Zone](/img/tables.png.png)
+![Tabelas Trusted Zone](/img/tables.png)
 
 ## Job Refined
 
@@ -212,7 +212,7 @@ filme_produtora = filme_produtora.orderBy('id_filme_produtora')
 
 Dropei todas as colunas que já estavam localizadas em outras tabelas.
 
-Renomei a coluna *nomeArtista* para *Ator* já que se trata somende de Leonardo DiCaprio.
+Renomei a coluna *nomeArtista* para *Ator* já que se trata somente de Leonardo DiCaprio.
 
 ```py
 all_data = df_dados_filme.join(df_dados_complementares, 'imdb_id', 'outer') #Todos dados necessários para as outras tabelas
@@ -221,11 +221,11 @@ filme = all_data.drop('receita').drop('popularidade').drop('orcamento').drop('me
 filme = filme.withColumnRenamed('nomeArtista', 'ator') #Done
 ```
 
-**Aqui comecei a trabalhar na tabela *filme_lucro, puxando os dados do data frame *all_data* e dropando as tabelas para mante-lá como planeijei na modelagem relacional do banco.**
+**Aqui comecei a trabalhar na tabela *filme_lucro*, puxando os dados do data frame *all_data* e dropando as tabelas para mante-lá como planeijei na modelagem relacional do banco.**
 
 Gerei uma nova coluna de *lucro*, diminuindo a receita pelo orçamento, e uma nova coluna de *percent_lucro* onde é calculada a porcentagem de lucro. 
 
-Novamente doi criada um id único para essa coluna, utilizando *row_number* e ordenando pelo *imdb_id*
+Também foi criada um id único para essa tabela, utilizando *row_number* e ordenando pelo *imdb_id*
 
 É importante destacar que a API TMDB não tinha acesso a todos os dados dessa tabela, como *orçamento* e *receita* de todos os filmes, que poderam retornar alguns valores igual a zero, por falta de informações.
 
@@ -236,14 +236,14 @@ filme_lucro = filme_lucro.withColumn("percent_lucro", (col("lucro") / col("orcam
 filme_lucro = filme_lucro.withColumn('id_filme_lucro', row_number().over(Window.orderBy('imdb_id'))) #Done
 ```
 
-**Na coluna *filme_score*, onde contém informações sobre *popularidade, votos e média de votos*, também foram dropadas as colunas que já estão mapeadas em outras tabelas, e criado um id de identificação único**
+**Na tabela *filme_score*, onde contém informações sobre *popularidade, votos e média de votos*, também foram dropadas as colunas que já estão mapeadas em outras tabelas, e criado um id de identificação único**
 
 ```py
 filme_score = all_data.drop('receita').drop('orcamento').drop('titulo').drop('lancamento').drop('duracao_minutos').drop('nomeartista')
 filme_score = filme_score.withColumn('id_filme_score', row_number().over(Window.orderBy('imdb_id'))) #Done
 ```
 
-**Com todas as 7 colunas prontas seguindo o *modelo relacional*, importei as para a camada Refined, e depois utilizei um Crawler para criar as tabelas**
+**Com todas as 7 tabelas prontas seguindo o *modelo relacional*, importei-as para a camada Refined, e depois utilizei um Crawler para criar as tabelas**
 
 - [Modelo Relacional](/img/modelagem-tabelas.jpg)
 
@@ -310,4 +310,4 @@ Tabelas Criadas no banco de dados *tl_refined_zone*
 
 ![Tabelas no banco de dados tl_refined_zone](/img/tl_refined_zone_db.png)
 
-![Job completo](/PROJETO%20II/etapa-3-jobs/jobs/refined-job.py)
+- [Job completo](/PROJETO%20II/etapa-3-jobs/jobs/refined-job.py)
