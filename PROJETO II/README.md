@@ -16,7 +16,7 @@
 - Quais filmes tiveram o maior lucro.
 - Quais gêneros atuados o ator teve maior popularidade.
 - Quais produtoras lucraram mais.
-- Quais filmes/gêneros tiveram a melhor votação.
+- Quais filmes/gêneros tiveram a melhor votação. 
 - Em quais gêneros o ator mais atuou.
 
 

@@ -1,3 +1,5 @@
+# Etapa I - Input de Dados
+
 * Foi criado um volume no /app/Dockerfile, "/data" onde foram upados os arquivos da pasta "dados"
 
 * Em index.py os dados são puxados do volume do container "/data" e são enviados para o bucket.

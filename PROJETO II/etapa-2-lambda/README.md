@@ -1,4 +1,4 @@
-## Informações sobre o lambda-function
+# Etapa II - Função Lambda
 
 **A função foi salva exatamente como o código foi rodado no Lambda.**
 
