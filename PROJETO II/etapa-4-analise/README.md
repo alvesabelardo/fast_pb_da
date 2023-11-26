@@ -25,7 +25,7 @@ LEFT JOIN tl_refined_zone.filme_score ON tl_refined_zone.filme_score.imdb_id = t
 LEFT JOIN tl_refined_zone.filme_lucro ON tl_refined_zone.filme_lucro.imdb_id = tl_refined_zone.filme_lucro.imdb_id;
 ```
 
-* Lucro_por_produtora - Onde somei o lucro de todos os filmes por produtora para trazer um gráfico afim de análisar quais produtoras lucraram mais com as atuações de Leonardo DiCaprio.
+* Lucro_por_produtora - Onde somei o lucro de todos os filmes por produtora para trazer um gráfico a fim de análisar quais produtoras lucraram mais com as atuações de Leonardo DiCaprio.
 
 ```sql
 SELECT tl_refined_zone.filme_lucro.lucro, tl_refined_zone.produtora.produtora 
@@ -35,7 +35,7 @@ JOIN tl_refined_zone.filme_produtora ON tl_refined_zone.filme.imdb_id = tl_refin
 JOIN tl_refined_zone.produtora ON tl_refined_zone.filme_produtora.id_produtora = tl_refined_zone.produtora.id_produtora;
 ```
 
-* total_popularidade_produtora - Afim de trazer um gráfico somando a popularidade de todos os filmes por produtora e análisar qual produtora ganhou mais popularidade com as atuações do ator.
+* total_popularidade_produtora - A fim de trazer um gráfico somando a popularidade de todos os filmes por produtora e análisar qual produtora ganhou mais popularidade com as atuações do ator.
 
 ```sql
 SELECT tl_refined_zone.produtora.produtora, tl_refined_zone.filme_score.popularidade AS Total_Popularidade
@@ -51,7 +51,7 @@ ORDER BY Total_Popularidade DESC;
 
 **O Intuido do Dashboard é trazer visões de análise e comparações em relação aos filmes e produtoras em que o ator atuou ao longo do tempo, além de informações da tragetória e carreira do ator.**
 
-* Atuações do ator, em relação a gênero e época e produtora.
+* Atuações do ator, em relação a gênero, época e produtora.
 
 * Relações de filmes do ator, popularidade, votações e lucratividade.
 
@@ -59,7 +59,7 @@ ORDER BY Total_Popularidade DESC;
 
 **Busquei explorar a ferramenta, utilizando filtros, gráficos e formatações visuais diferentes.**
 
-É perceptível que a maioria dessas questões sejam melhor visualizadas com gráficos de barra, entretanto, procurei utilizar outros gráficos e tabelas afim de conseguir variedade de gráficos no dashboard.
+É perceptível que a maioria dessas questões sejam melhor visualizadas com gráficos de barra, entretanto, procurei utilizar outros gráficos e tabelas com o intuito de conseguir variedade de gráficos no dashboard.
 
 ### Resultado Final
 
