@@ -40,7 +40,7 @@ ___
 
 - [Modulo I](/MODULO%20I/README.md)
 - [Modulo II](/MODULO%20II/README.md)
-- [Modulo II](/MODULO%20III/README.md)
+- [Modulo III](/MODULO%20III/README.md)
 
 # Projetos
 

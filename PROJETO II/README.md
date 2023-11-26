@@ -1,6 +1,6 @@
 # PROJETO II
 
-**Esse Projeto foi desenvolvido afim de análisar dados sobre filmes em que o renomado ator Leonardo DiCaprio atuou, afim de trazer informações como, orçamento, lucros, popularidade e votos obtidos em cada filme. O projeto foi dividio em 4 etapas:**
+**Esse Projeto foi desenvolvido a fim de análisar dados sobre filmes em que o renomado ator Leonardo DiCaprio atuou, afim de trazer informações como, orçamento, lucros, popularidade e votos obtidos em cada filme. O projeto foi dividio em 4 etapas:**
 
 - Etapa I - Injestão de dados no S3 dos arquivos CSV's
 
@@ -8,9 +8,9 @@
 
 - Etapa III - Normalização e Refinamento dos dados
 
-- Etapa IV - Ánalise dos dados 
+- Etapa IV - Análise dos dados 
 
-**Algumas métricas utilizadas para a ánalise foram**
+**Algumas métricas utilizadas para a análise foram**
 
 - Relação orçamento e receita.
 - Quais filmes tiveram o maior lucro.

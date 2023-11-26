@@ -46,7 +46,7 @@ Posteriormente é realizada uma filtragem dos dados da coluna *'nomeArtista' = '
 
 **Requisição do Id_movie na API**
 
-Com os imdbs salvo em uma lista, é possível requisitar os movie_id dos filmes filtrados, que posteriormente traram as informações necessárias para complementar os dados do arquivo csv
+Com os imdbs salvo em uma lista, é possível requisitar os movie_id dos filmes filtrados, responsaveis por trazer as informações necessárias para complementar os dados do arquivo csv
 
 ```py
     api_key = os.environ.get('API_KEY')
@@ -138,10 +138,6 @@ Com os imdbs salvo em uma lista, é possível requisitar os movie_id dos filmes 
 
 - Os dados são salvos no arquivo *detalhes_filmes.json* contendo **29 registros**, com a mesma estrutura,  e *9.2KB*. 
 
-- Caso queira conferir a estrutura: - [Arquivo Json](/etapa-2-lambda/data/detalhes_filmes.json)
+- Caso queira conferir a estrutura: - [Arquivo Json](/PROJETO%20II/etapa-2-lambda/data/detalhes_filmes.json)
 
 - [Função Completa](/PROJETO%20II/etapa-2-lambda/lambda-function.py)
-
-- [Arquivos de Testes Locais](/PROJETO%20II/etapa-2-lambda/testes/)
-
-- [Layers](/PROJETO%20II/etapa-2-lambda/layers/Dockerfile) *Foram ignorados por razões de armazenamento*
